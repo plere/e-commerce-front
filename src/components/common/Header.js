@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const HeaderBlock = styled.div`
@@ -17,6 +18,8 @@ const Wrapper = styled.div`
     font-size: 1.125rem;
     font-weight: 800;
     letter-spacing: 2px;
+    color: black;
+    text-decoration: none;    
   }
   .right {
     display: flex;
@@ -24,20 +27,55 @@ const Wrapper = styled.div`
   }
 `;
 
+const TopBar = styled.div`
+  height: 4rem;
+  width: 10rem;
+  align-items: left;
+
+  .content {
+    display: none;
+    list-style-type: none;
+    border: 1px solid;
+    background: white;    
+  }
+
+  .content .link {
+    color: black;
+    text-decoration: none;
+  }
+
+  &:hover .content {
+    display: block;
+  }
+  
+`
+
+const Spacer = styled.div`
+  height: 4rem;
+`;
+
 const Header = () => {
   return (
     <>      
       <HeaderBlock>
         <Wrapper>
-          <div className="logo">
+          <TopBar>            
+            입점 신청
+            <ul className="content">
+              <li><Link to="/store/register" className="link">가입</Link></li>
+              <li><Link to="/store/login" className="link">로그인</Link></li>
+            </ul>
+          </TopBar>
+          <Link to="/" className="logo">
             SHOPPING MALL
-          </div>
+          </Link>
           <div className="right">
             <div>username</div>
             <button>로그아웃</button>
           </div>
-        </Wrapper>
+        </Wrapper>        
       </HeaderBlock>
+      <Spacer />
     </>
   );
 };
