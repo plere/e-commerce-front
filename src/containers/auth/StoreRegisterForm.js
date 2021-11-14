@@ -3,14 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import StoreForm from '../../components/auth/StoreForm';
 import { StoreChangeField, storeInitializeForm, storeRegister } from '../../modules/auth';
+import { check } from '../../modules/user';
 
 const StoreRegisterForm = () => {
   const [error, setError] = useState(null);
   const dispatch = useDispatch();  
-  const { form, store, storeError } = useSelector(({ auth }) => ({
+  const { form, store, storeError, user } = useSelector(({ auth, user }) => ({
     form: auth.store_register,
     store: auth.auth,
-    storeError: auth.authError
+    storeError: auth.authError,
+    user: user.user
   }));
 
   const navigate = useNavigate();
@@ -65,9 +67,15 @@ const StoreRegisterForm = () => {
     }
 
     if (store) {
-      navigate('/');
+      dispatch(check(store));
     }
-  }, [store, storeError, navigate, dispatch]);
+  }, [store, storeError, dispatch]);
+
+  useEffect(() => {
+    if (user) {
+      navigate('/'); // 홈 화면으로 이동
+    }
+  }, [navigate, user]);
 
   return (
     <StoreForm

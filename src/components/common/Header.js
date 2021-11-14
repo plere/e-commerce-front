@@ -47,14 +47,18 @@ const TopBar = styled.div`
   &:hover .content {
     display: block;
   }
-  
-`
+`;
 
 const Spacer = styled.div`
   height: 4rem;
 `;
 
-const Header = () => {
+const UserInfo = styled.div`
+  font-weight: 800;
+  margin-right: 1rem;
+`;
+
+const Header = ({ user }) => {
   return (
     <>      
       <HeaderBlock>
@@ -69,10 +73,24 @@ const Header = () => {
           <Link to="/" className="logo">
             SHOPPING MALL
           </Link>
-          <div className="right">
-            <div>username</div>
-            <button>로그아웃</button>
-          </div>
+          {user ? (
+            user.isStore ? (
+              <div className="right">
+              <UserInfo>{user.store_name}</UserInfo>
+              <button>로그아웃</button>
+              </div>
+ 
+            ) : (
+              <div className="right">
+              <UserInfo>{user.username}</UserInfo>
+              <button>로그아웃</button>
+              </div>
+            )
+          ) : (
+            <div className="right">
+              <button to="/login">로그인</button>
+            </div>
+          )}
         </Wrapper>        
       </HeaderBlock>
       <Spacer />
