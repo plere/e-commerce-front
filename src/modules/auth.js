@@ -44,7 +44,7 @@ const initialState = {
     email: '',
     tel: '',
     description: ''
-  },
+  }
 };
 
 const auth = handleActions(
@@ -59,11 +59,14 @@ const auth = handleActions(
     }),
     // 회원가입 성공
     [STORE_REGISTER_SUCCESS]: (state, { payload: auth }) => ({
-      ...state,
+      ...state,      
+      authError: null,
+      auth,
     }),
     // 회원가입 실패
     [STORE_REGISTER_FAILURE]: (state, { payload: error }) => ({
       ...state,
+      authError: error
     }),
   },
   initialState
