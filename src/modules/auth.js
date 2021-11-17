@@ -13,6 +13,10 @@ const [STORE_REGISTER, STORE_REGISTER_SUCCESS, STORE_REGISTER_FAILURE] = createR
   'store/REGISTER'
 );
 
+const [STORE_LOGIN, STORE_LOGIN_SUCCESS, STORE_LOGIN_FAILURE] = createRequestActionTypes(
+  'store/LOGIN'
+);
+
 export const StoreChangeField = createAction(
   STORE_CHANGE_FIELD,
   ({ form, key, value }) => ({
@@ -29,11 +33,17 @@ export const storeRegister = createAction(STORE_REGISTER, ({ storename, password
   tel, 
   description
 }));
+export const storeLogin = createAction(STORE_LOGIN, ({ storename, password }) => ({
+  storename,
+  password
+}));
 
 // saga 생성
 const storeRegisterSaga = createRequestSaga(STORE_REGISTER, authAPI.storeRegister);
+const storeLoginSaga = createRequestSaga(STORE_LOGIN, authAPI.storeLogin);
 export function* authSaga() {
-  yield takeLatest(STORE_REGISTER, storeRegisterSaga);
+  yield takeLatest(STORE_REGISTER, storeRegisterSaga);  
+  yield takeLatest(STORE_LOGIN, storeLoginSaga);
 }
 
 const initialState = {
@@ -44,7 +54,13 @@ const initialState = {
     email: '',
     tel: '',
     description: ''
-  }
+  },
+  store_login: {
+    storename: '',
+    password: '',
+  },  
+  auth: null,
+  authError: null 
 };
 
 const auth = handleActions(
@@ -68,6 +84,17 @@ const auth = handleActions(
       ...state,
       authError: error
     }),
+    // 로그인 성공
+    [STORE_LOGIN_SUCCESS]: (state, { payload: auth }) => ({
+      ...state,
+      authError: null,
+      auth
+    }),
+    // 로그인 실패
+    [STORE_LOGIN_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      authError: error
+    })
   },
   initialState
 );

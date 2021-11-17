@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router';
+import StoreLoginForm from '../containers/auth/StoreLoginForm';
 import StoreRegisterForm from '../containers/auth/StoreRegisterForm';
 
 
@@ -10,7 +11,7 @@ const StoreRegisterPage = () => {
   return (
     <>
     {type === 'register' ? 
-      <StoreRegisterForm /> : null //login
+      <StoreRegisterForm /> : <StoreLoginForm />
     }
     </>
   );
